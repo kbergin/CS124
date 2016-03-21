@@ -35,4 +35,13 @@ public class Strassens {
         }
         return matrix;
     }
+
+    /*
+    * Next I think we need ...
+    *  - a function to divide the matrices into two sub matrices
+    *  - a function to pad the matrix with zeros
+    *  - a recursion to actually run strassens
+    *  - to add the normal matrix multiplication that can work for any size matrix
+    *  - a function to print only the diagonal of the final matrix like they ask
+    * */
 }
