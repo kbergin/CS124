@@ -17,23 +17,49 @@ public class Strassens {
         }
 
         int dimension = Integer.parseInt(args[1]);
-        File inputFile = new File(args[2]);
+        String inputFile = args[2];
 
-        int[] matrixA = buildMatrix(inputFile, dimension, true);
-        int[] matrixB = buildMatrix(inputFile, dimension, false);
+        Matrix[] matrices = Matrix.createMatrices(inputFile, dimension);
     }
 
-    private static int[] buildMatrix(File inputFile, int dimension, boolean first) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile)));
-        int[] matrix = new int[dimension*dimension];
-        int i = (first) ? 0 : dimension;
-        String line;
-        int j = i;
-        while( (line = br.readLine())!= null && j<i+dimension ) {
-            matrix[i] = Integer.parseInt(line);
-            j++;
-        }
-        return matrix;
+    private static int[][] strassens(int[][] A, int[][] B){
+        int[][] matrixC = new int[2][2];
+
+        /*
+        * matrix A:
+        * A (0,0) | B (0,1)
+        * C (1,0) | D (1,1)
+        *
+        * matrix B:
+        * E (0,0) | F (0,1)
+        * G (1,0) | H (1,1)
+        * */
+
+        int P1 = A[0][0] * (B[0][1] - B[1][1]); // A(F-H)
+        int P2 = (A[0][0] + A[0][1]) * B[1][1]; // (A+B)H
+        int P3 = (A[1][0] + A[1][1]) * B[0][0]; // (C+D)E
+        int P4 = A[1][1] * (B[1][0] - B[0][0]); // D(G-E)
+        int P5 = (A[0][0] + A[1][1]) * (B[0][0] + B[1][1]); // (A+D)(E+H)
+        int P6 = (A[0][1] - A[1][1]) * (B[1][0] + B[1][1]); // (B-D)(G+H)
+        int P7 = (A[0][0] - A[1][0]) * (B[0][0] + B[0][1]); // (A-C)(E+F)
+
+        matrixC[0][0] = P5 + P4 - P2 + P6;
+        matrixC[0][1] = P1 + P2;
+        matrixC[1][0] = P3 + P4;
+        matrixC[1][1] = P1 + P5 - P3 - P7;
+
+        return matrixC;
+    }
+
+
+    //Conventional matrix multiplication hard coded for 2x2 -- need to expand to handle any size matrix
+    public static int[] matrixMultiplication(int[] x, int[] y) {
+        int[] result = new int[4];
+        result[0] = ((x[0] * y[0]) + (x[1] * y[2]));
+        result[1] = ((x[0] * y[1]) + (x[1] * y[3]));
+        result[2] = ((x[2] * y[0]) + (x[3] * y[2]));
+        result[3] = ((x[2] * y[1]) + (x[3] * y[3]));
+        return result;
     }
 
     /*
