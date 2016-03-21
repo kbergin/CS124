@@ -1,7 +1,7 @@
 import java.io.*;
 
 public class Matrix {
-	public int[][] vals 
+	public int[][] vals;
 	public int dim;
 	
 	public Matrix(int[][] vals) {
@@ -57,7 +57,7 @@ public class Matrix {
 	*/
 	//just to print diagonal
 		for (int i = 0; i < this.dim; i++) {
-			System.out.println(this.rows[i][i]);
+			System.out.println(this.vals[i][i]);
 		}
 	}
 }

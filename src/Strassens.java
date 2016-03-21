@@ -17,10 +17,9 @@ public class Strassens {
         }
 
         int dimension = Integer.parseInt(args[1]);
-        File inputFile = new File(args[2]);
+        String inputFile = args[2];
 
-        int[] matrixA = buildMatrix(inputFile, dimension, true);
-        int[] matrixB = buildMatrix(inputFile, dimension, false);
+        Matrix[] matrices = Matrix.createMatrices(inputFile, dimension);
     }
 
     private static int[][] strassens(int[][] A, int[][] B){
