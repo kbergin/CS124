@@ -22,8 +22,11 @@ public class Strassens {
         Matrix[] matrices = Matrix.createMatrices(inputFile, dimension);
     }
 
-    private static int[][] strassens(int[][] A, int[][] B){
-        int[][] matrixC = new int[2][2];
+    private static Matrix strassens(Matrix A, Matrix B){
+        if (A.dim != B.dim) throw new RuntimeException("Illegal matrix dimensions.");
+
+        int d = A.dim;
+        int[][] matrixC = new int[d][d];
 
         /*
         * matrix A:
@@ -48,30 +51,28 @@ public class Strassens {
         matrixC[1][0] = P3 + P4;
         matrixC[1][1] = P1 + P5 - P3 - P7;
 
-        return matrixC;
+        Matrix C = new Matrix(matrixC);
+        return C;
     }
 
-
-    //Conventional matrix multiplication hard coded for 2x2 -- need to expand to handle any size matrix
     public static Matrix matrixMultiplication(Matrix A, Matrix B) {
 
-    if (A.dim != B.dim) throw new RuntimeException("Illegal matrix dimensions.");
-    
-    int d = A.dim;
-    int[][] product = new int[d][d];
-  
-    for (int i = 0; i < d; i++)
-        for (int j = 0; j < d; j++)
-            for (int k = 0; k < d; k++){
-                product[i][j] += A.vals[i][k] * B.vals[k][j];
-           }
+        if (A.dim != B.dim) throw new RuntimeException("Illegal matrix dimensions.");
+
+        int d = A.dim;
+        int[][] product = new int[d][d];
+
+        for (int i = 0; i < d; i++) {
+            for (int j = 0; j < d; j++) {
+                for (int k = 0; k < d; k++) {
+                    product[i][j] += A.vals[i][k] * B.vals[k][j];
+                }
+            }
         }
+
+        Matrix C = new Matrix(product);
+        return C;
     }
-    
-    Matrix C = new Matrix(product);
-    return C;
-    }
-    
     
 
     /*
