@@ -53,14 +53,26 @@ public class Strassens {
 
 
     //Conventional matrix multiplication hard coded for 2x2 -- need to expand to handle any size matrix
-    public static int[] matrixMultiplication(int[] x, int[] y) {
-        int[] result = new int[4];
-        result[0] = ((x[0] * y[0]) + (x[1] * y[2]));
-        result[1] = ((x[0] * y[1]) + (x[1] * y[3]));
-        result[2] = ((x[2] * y[0]) + (x[3] * y[2]));
-        result[3] = ((x[2] * y[1]) + (x[3] * y[3]));
-        return result;
+    public static Matrix matrixMultiplication(Matrix A, Matrix B) {
+
+    if (A.dim != B.dim) throw new RuntimeException("Illegal matrix dimensions.");
+    
+    int d = A.dim;
+    int[][] product = new int[d][d];
+  
+    for (int i = 0; i < d; i++)
+        for (int j = 0; j < d; j++)
+            for (int k = 0; k < d; k++){
+                product[i][j] += A.vals[i][k] * B.vals[k][j];
+           }
+        }
     }
+    
+    Matrix C = new Matrix(product);
+    return C;
+    }
+    
+    
 
     /*
     * Next I think we need ...
