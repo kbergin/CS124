@@ -36,7 +36,7 @@ public class Strassens {
         * matrix B:
         * E (0,0) | F (0,1)
         * G (1,0) | H (1,1)
-        * */
+        *
 
         int P1 = A[0][0] * (B[0][1] - B[1][1]); // A(F-H)
         int P2 = (A[0][0] + A[0][1]) * B[1][1]; // (A+B)H
@@ -50,7 +50,7 @@ public class Strassens {
         matrixC[0][1] = P1 + P2;
         matrixC[1][0] = P3 + P4;
         matrixC[1][1] = P1 + P5 - P3 - P7;
-
+*/
         Matrix C = new Matrix(matrixC);
         return C;
     }
