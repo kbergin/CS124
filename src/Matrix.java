@@ -1,5 +1,6 @@
 import java.io.*;
 
+
 public class Matrix {
 	public int[][] vals;
 	public int dim;
@@ -32,7 +33,7 @@ public class Matrix {
 		Matrix[] arrayOfMatrices = new Matrix[2];
 		
 		int counter = 0;
-		for (int i = 0; i < 2; i++) { 
+		for (int i = 0; i < 2; i++) {
 			int[][] vals = new int[dim][dim];
 			for (int j = 0; j < dim; j++) { 
 				for (int k = 0; k < dim; k++) {

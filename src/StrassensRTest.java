@@ -1,10 +1,11 @@
-import java.util.ArrayList;
-
 /**
- * Created by kbergin on 3/22/16.
+ * Created by kbergin and rmunchi on 3/22/16.
  */
+
+
 public class StrassensRTest {
-    private static int LEAF_SIZE=8;
+    //global n0 that we need to determine
+    private static int n0 = 8;
 
     public static void main (String[]args) throws Exception {
         if(args.length!=3){
@@ -18,16 +19,14 @@ public class StrassensRTest {
         String inputFile = args[2];
 
         Matrix[] matrices = Matrix.createMatrices(inputFile, dimension);
-        int[][] result = strassenR(matrices[0].vals, matrices[1].vals);
+        int[][] result = strassen(matrices[0].vals, matrices[1].vals);
 
         Matrix resultMatrix = new Matrix(result);
         resultMatrix.print();
     }
 
-    public static int[][] ikjAlgorithm(int[][] A, int[][] B) {
+    public static int[][] conventionalMM(int[][] A, int[][] B) {
         int n = A.length;
-
-        // initialise C
         int[][] C = new int[n][n];
 
         for (int i = 0; i < n; i++) {
@@ -40,7 +39,7 @@ public class StrassensRTest {
         return C;
     }
 
-    private static int[][] add(int[][] A, int[][] B) {
+    private static int[][] matrixAddition(int[][] A, int[][] B) {
         int n = A.length;
         int[][] C = new int[n][n];
         for (int i = 0; i < n; i++) {
@@ -51,7 +50,7 @@ public class StrassensRTest {
         return C;
     }
 
-    private static int[][] subtract(int[][] A, int[][] B) {
+    private static int[][] matrixSubtraction(int[][] A, int[][] B) {
         int n = A.length;
         int[][] C = new int[n][n];
         for (int i = 0; i < n; i++) {
@@ -67,37 +66,35 @@ public class StrassensRTest {
         return (int) Math.pow(2, log2);
     }
 
-    public static int[][] strassen(ArrayList<ArrayList<Integer>> A,
-                                   ArrayList<ArrayList<Integer>> B) {
-        // Make the matrices bigger so that you can apply the strassen
-        // algorithm recursively without having to deal with odd
-        // matrix sizes
-        int n = A.size();
+
+    public static int[][] strassen(int[][] A,
+                                   int[][] B) {
+        int n = A.length;
         int m = nextPowerOfTwo(n);
-        int[][] APrep = new int[m][m];
-        int[][] BPrep = new int[m][m];
+        int[][] paddedA = new int[m][m];
+        int[][] paddedB = new int[m][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                APrep[i][j] = A.get(i).get(j);
-                BPrep[i][j] = B.get(i).get(j);
+                paddedA[i][j] = A[i][j];
+                paddedB[i][j] = B[i][j];
             }
         }
 
-        int[][] CPrep = strassenR(APrep, BPrep);
+        int[][] paddedC = strassenRecursive(paddedA, paddedB);
         int[][] C = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                C[i][j] = CPrep[i][j];
+                C[i][j] = paddedC[i][j];
             }
         }
         return C;
     }
 
-    private static int[][] strassenR(int[][] A, int[][] B) {
+    private static int[][] strassenRecursive(int[][] A, int[][] B) {
         int n = A.length;
 
-        if (n <= LEAF_SIZE) {
-            return ikjAlgorithm(A, B);
+        if (n <= n0) {
+            return conventionalMM(A, B);
         } else {
             // initializing the new sub-matrices
             int newSize = n / 2;
@@ -111,8 +108,8 @@ public class StrassensRTest {
             int[][] b21 = new int[newSize][newSize];
             int[][] b22 = new int[newSize][newSize];
 
-            int[][] aResult = new int[newSize][newSize];
-            int[][] bResult = new int[newSize][newSize];
+            int[][] aResult;
+            int[][] bResult;
 
             // dividing the matrices in 4 sub-matrices:
             for (int i = 0; i < newSize; i++) {
@@ -130,49 +127,54 @@ public class StrassensRTest {
             }
 
             // Calculating p1 to p7:
-            aResult = add(a11, a22);
-            bResult = add(b11, b22);
-            int[][] p1 = strassenR(aResult, bResult);
+
             // p1 = (a11+a22) * (b11+b22)
+            aResult = matrixAddition(a11, a22);
+            bResult = matrixAddition(b11, b22);
+            int[][] p1 = strassenRecursive(aResult, bResult);
 
-            aResult = add(a21, a22); // a21 + a22
-            int[][] p2 = strassenR(aResult, b11); // p2 = (a21+a22) * (b11)
+            // p2 = (a21+a22) * (b11)
+            aResult = matrixAddition(a21, a22); // a21 + a22
+            int[][] p2 = strassenRecursive(aResult, b11);
 
-            bResult = subtract(b12, b22); // b12 - b22
-            int[][] p3 = strassenR(a11, bResult);
             // p3 = (a11) * (b12 - b22)
+            bResult = matrixSubtraction(b12, b22); // b12 - b22
+            int[][] p3 = strassenRecursive(a11, bResult);
 
-            bResult = subtract(b21, b11); // b21 - b11
-            int[][] p4 = strassenR(a22, bResult);
             // p4 = (a22) * (b21 - b11)
+            bResult = matrixSubtraction(b21, b11); // b21 - b11
+            int[][] p4 = strassenRecursive(a22, bResult);
 
-            aResult = add(a11, a12); // a11 + a12
-            int[][] p5 = strassenR(aResult, b22);
             // p5 = (a11+a12) * (b22)
+            aResult = matrixAddition(a11, a12); // a11 + a12
+            int[][] p5 = strassenRecursive(aResult, b22);
 
-            aResult = subtract(a21, a11); // a21 - a11
-            bResult = add(b11, b12); // b11 + b12
-            int[][] p6 = strassenR(aResult, bResult);
             // p6 = (a21-a11) * (b11+b12)
+            aResult = matrixSubtraction(a21, a11); // a21 - a11
+            bResult = matrixAddition(b11, b12); // b11 + b12
+            int[][] p6 = strassenRecursive(aResult, bResult);
 
-            aResult = subtract(a12, a22); // a12 - a22
-            bResult = add(b21, b22); // b21 + b22
-            int[][] p7 = strassenR(aResult, bResult);
             // p7 = (a12-a22) * (b21+b22)
+            aResult = matrixSubtraction(a12, a22); // a12 - a22
+            bResult = matrixAddition(b21, b22); // b21 + b22
+            int[][] p7 = strassenRecursive(aResult, bResult);
 
-            // calculating c21, c21, c11 e c22:
-            int[][] c12 = add(p3, p5); // c12 = p3 + p5
-            int[][] c21 = add(p2, p4); // c21 = p2 + p4
+            // calculating c21, c21, c11 c22:
+            // c12 = p3 + p5
+            int[][] c12 = matrixAddition(p3, p5);
 
-            aResult = add(p1, p4); // p1 + p4
-            bResult = add(aResult, p7); // p1 + p4 + p7
-            int[][] c11 = subtract(bResult, p5);
+            // c21 = p2 + p4
+            int[][] c21 = matrixAddition(p2, p4);
+
             // c11 = p1 + p4 - p5 + p7
+            aResult = matrixAddition(p1, p4); // p1 + p4
+            bResult = matrixAddition(aResult, p7); // p1 + p4 + p7
+            int[][] c11 = matrixSubtraction(bResult, p5);
 
-            aResult = add(p1, p3); // p1 + p3
-            bResult = add(aResult, p6); // p1 + p3 + p6
-            int[][] c22 = subtract(bResult, p2);
             // c22 = p1 + p3 - p2 + p6
+            aResult = matrixAddition(p1, p3); // p1 + p3
+            bResult = matrixAddition(aResult, p6); // p1 + p3 + p6
+            int[][] c22 = matrixSubtraction(bResult, p2);
 
             // Grouping the results obtained in a single matrix:
             int[][] C = new int[n][n];
