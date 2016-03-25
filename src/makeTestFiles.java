@@ -8,8 +8,7 @@ import java.io.BufferedWriter;
  * Created by kbergin on 3/25/16.
  */
 public class makeTestFiles {
-    public static void main (String[] args) throws Exception {
-        int dimension = Integer.parseInt(args[0]);
+    public static void main (int dimension) throws Exception {
         Writer writer = null;
 
         try {
@@ -25,6 +24,5 @@ public class makeTestFiles {
         } finally {
             try {writer.close();} catch (Exception ex) {/*ignore*/}
         }
-
     }
 }

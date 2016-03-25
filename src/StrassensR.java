@@ -3,9 +3,9 @@
  */
 
 
-public class StrassensRTest {
+public class StrassensR {
     //global n0 that we need to determine
-    private static int n0 = 8;
+    //private static int n0 = 8;
 
     public static void main (String[]args) throws Exception {
         if(args.length!=3){
@@ -15,15 +15,18 @@ public class StrassensRTest {
                     "(3) input file with matrix entries");
         }
 
-        int dimension = Integer.parseInt(args[1]);
-        String inputFile = args[2];
+        //later make sure you change n0 to be a global number instead of this flag.
+        final int n0 = Integer.parseInt(args[0]);
+        final int dimension = Integer.parseInt(args[1]);
+        final String inputFile = args[2];
 
         Matrix[] matrices = Matrix.createMatrices(inputFile, dimension);
-        int[][] result = strassen(matrices[0].vals, matrices[1].vals);
+        int[][] result = strassen(matrices[0].vals, matrices[1].vals, n0);
 
         Matrix resultMatrix = new Matrix(result);
         resultMatrix.print();
     }
+
 
     public static int[][] conventionalMM(int[][] A, int[][] B) {
         int n = A.length;
@@ -39,36 +42,7 @@ public class StrassensRTest {
         return C;
     }
 
-    private static int[][] matrixAddition(int[][] A, int[][] B) {
-        int n = A.length;
-        int[][] C = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                C[i][j] = A[i][j] + B[i][j];
-            }
-        }
-        return C;
-    }
-
-    private static int[][] matrixSubtraction(int[][] A, int[][] B) {
-        int n = A.length;
-        int[][] C = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                C[i][j] = A[i][j] - B[i][j];
-            }
-        }
-        return C;
-    }
-
-    private static int nextPowerOfTwo(int n) {
-        int log2 = (int) Math.ceil(Math.log(n) / Math.log(2));
-        return (int) Math.pow(2, log2);
-    }
-
-
-    public static int[][] strassen(int[][] A,
-                                   int[][] B) {
+    public static int[][] strassen(int[][] A, int[][] B, final int n0) {
         int n = A.length;
         int m = nextPowerOfTwo(n);
         int[][] paddedA = new int[m][m];
@@ -80,7 +54,7 @@ public class StrassensRTest {
             }
         }
 
-        int[][] paddedC = strassenRecursive(paddedA, paddedB);
+        int[][] paddedC = strassenRecursive(paddedA, paddedB, n0);
         int[][] C = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -90,7 +64,7 @@ public class StrassensRTest {
         return C;
     }
 
-    private static int[][] strassenRecursive(int[][] A, int[][] B) {
+    private static int[][] strassenRecursive(int[][] A, int[][] B, final int n0) {
         int n = A.length;
 
         if (n <= n0) {
@@ -131,33 +105,33 @@ public class StrassensRTest {
             // p1 = (a11+a22) * (b11+b22)
             aResult = matrixAddition(a11, a22);
             bResult = matrixAddition(b11, b22);
-            int[][] p1 = strassenRecursive(aResult, bResult);
+            int[][] p1 = strassenRecursive(aResult, bResult, n0);
 
             // p2 = (a21+a22) * (b11)
             aResult = matrixAddition(a21, a22); // a21 + a22
-            int[][] p2 = strassenRecursive(aResult, b11);
+            int[][] p2 = strassenRecursive(aResult, b11, n0);
 
             // p3 = (a11) * (b12 - b22)
             bResult = matrixSubtraction(b12, b22); // b12 - b22
-            int[][] p3 = strassenRecursive(a11, bResult);
+            int[][] p3 = strassenRecursive(a11, bResult, n0);
 
             // p4 = (a22) * (b21 - b11)
             bResult = matrixSubtraction(b21, b11); // b21 - b11
-            int[][] p4 = strassenRecursive(a22, bResult);
+            int[][] p4 = strassenRecursive(a22, bResult, n0);
 
             // p5 = (a11+a12) * (b22)
             aResult = matrixAddition(a11, a12); // a11 + a12
-            int[][] p5 = strassenRecursive(aResult, b22);
+            int[][] p5 = strassenRecursive(aResult, b22, n0);
 
             // p6 = (a21-a11) * (b11+b12)
             aResult = matrixSubtraction(a21, a11); // a21 - a11
             bResult = matrixAddition(b11, b12); // b11 + b12
-            int[][] p6 = strassenRecursive(aResult, bResult);
+            int[][] p6 = strassenRecursive(aResult, bResult, n0);
 
             // p7 = (a12-a22) * (b21+b22)
             aResult = matrixSubtraction(a12, a22); // a12 - a22
             bResult = matrixAddition(b21, b22); // b21 + b22
-            int[][] p7 = strassenRecursive(aResult, bResult);
+            int[][] p7 = strassenRecursive(aResult, bResult, n0);
 
             // calculating c21, c21, c11 c22:
             // c12 = p3 + p5
@@ -188,5 +162,32 @@ public class StrassensRTest {
             }
             return C;
         }
+    }
+
+    private static int[][] matrixAddition(int[][] A, int[][] B) {
+        int n = A.length;
+        int[][] C = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+        return C;
+    }
+
+    private static int[][] matrixSubtraction(int[][] A, int[][] B) {
+        int n = A.length;
+        int[][] C = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+        return C;
+    }
+
+    private static int nextPowerOfTwo(int n) {
+        int log2 = (int) Math.ceil(Math.log(n) / Math.log(2));
+        return (int) Math.pow(2, log2);
     }
 }
