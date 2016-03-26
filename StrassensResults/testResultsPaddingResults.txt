@@ -1,0 +1,7 @@
+Test & MatrixDimension & CrossoverPoint(n0) & Time(ms) & Algorithm
+1 & 17 & 0 & 72 & Strassens
+2 & 17 & 17 & 1 & Conventional
+3 & 129 & 0 & 17256 & Strassens
+4 & 129 & 129 & 29 & Conventional
+5 & 513 & 0 & 806134 & Strassens
+6 & 513 & 513 & 804 & Conventional

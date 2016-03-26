@@ -109,7 +109,38 @@ public class StrassensRTest {
         };
     }
 
-    @Test (dataProvider = "findn0")
+    @DataProvider(name = "findn0100")
+    public Object[][] findn0100(){
+        return new Object[][] {
+                //dimension, n0
+                {"100", "0"},
+                {"100", "10"},
+                {"100", "20"},
+                {"100", "30"},
+                {"100", "40"},
+                {"100", "50"},
+                {"100", "60"},
+                {"100", "70"},
+                {"100", "80"},
+                {"100", "90"},
+                {"100", "100"}
+        };
+    }
+
+    @DataProvider(name = "findn0odd")
+    public Object[][] findn0odd(){
+        return new Object[][] {
+                //dimension, n0
+                {"17", "0"},
+                {"17", "17"},
+                {"129", "0"},
+                {"129", "129"},
+                {"513", "0"},
+                {"513", "513"}
+        };
+    }
+
+    @Test (dataProvider = "findn0odd")
     public void testMain(String dimension, String n0) throws Exception {
         //makes test file for this dimension and n0 value and sends to Strassens
         makeTestFiles.main(Integer.parseInt(dimension));
