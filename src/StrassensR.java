@@ -24,11 +24,11 @@ public class StrassensR {
         int[][] result = strassen(matrices[0].vals, matrices[1].vals, n0);
 
         Matrix resultMatrix = new Matrix(result);
-        resultMatrix.print();
+        //resultMatrix.print();
     }
 
 
-    public static int[][] conventionalMM(int[][] A, int[][] B) {
+    private static int[][] conventionalMM(int[][] A, int[][] B) {
         int n = A.length;
         int[][] C = new int[n][n];
 
@@ -44,7 +44,7 @@ public class StrassensR {
         return C;
     }
 
-    public static int[][] strassen(int[][] A, int[][] B, final int n0) {
+    private static int[][] strassen(int[][] A, int[][] B, final int n0) {
         int n = A.length;
         int m = nextPowerOfTwo(n);
         int[][] paddedA = new int[m][m];

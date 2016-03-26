@@ -32,8 +32,8 @@ public class StrassensRTest {
         }
     }
 
-    @DataProvider(name = "findn0")
-    public Object[][] dnaTests(){
+    @DataProvider(name = "initialTiming")
+    public Object[][] initialTimingTests(){
         return new Object[][] {
                 //dimension, n0
                 //Conventional
@@ -54,7 +54,7 @@ public class StrassensRTest {
                 {"128", "0"},
                 {"256", "0"},
                 {"512", "0"},
-                {"1024", "0"},
+                //{"1024", "0"},
 
                 //n/4 Crossover
                 {"8", "2"},
@@ -85,6 +85,27 @@ public class StrassensRTest {
                 {"256", "192"},
                 {"512", "384"},
                 {"1024", "768"}
+        };
+    }
+
+    @DataProvider(name = "findn0")
+    public Object[][] findn0(){
+        return new Object[][] {
+                //dimension, n0
+                {"1024", "256"},
+                {"1024", "200"},
+                {"1024", "180"},
+                {"1024", "170"},
+                {"1024", "160"},
+                {"1024", "150"},
+                {"1024", "140"},
+                {"1024", "130"},
+                {"1024", "120"},
+                {"1024", "100"},
+                {"1024", "50"},
+                {"2056", "1024"},
+                {"2056", "512"},
+                {"2056", "256"}
         };
     }
 
