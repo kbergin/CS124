@@ -15,6 +15,11 @@ public class strassen {
                     "(3) input file with matrix entries");
         }
 
+        //for testing purposes, if something besides 0 is passed in as flag, use it as the n0
+        if(Integer.parseInt(args[0])>0)
+        {
+            n0=Integer.parseInt(args[0]);
+        }
         final int dimension = Integer.parseInt(args[1]);
         final String inputFile = args[2];
 
