@@ -47,7 +47,13 @@ public class Matrix {
 	}
 	
 	public void print() {
-	
+		//just to print diagonal
+		for (int i = 0; i < this.dim; i++) {
+			System.out.println(this.vals[i][i]);
+		}
+
+		//code for printing whole matrix, for testing
+
 		for (int i = 0; i < this.dim; i++) {
 			String line = "";
 			for (int j = 0; j < this.dim; j++) {
@@ -55,12 +61,6 @@ public class Matrix {
 		  }
 				System.out.println(line);
 		}
-	/**
-	//just to print diagonal
-		for (int i = 0; i < this.dim; i++) {
-			System.out.println(this.vals[i][i]);
-		}
-	*/
+
 	}
-	
 }

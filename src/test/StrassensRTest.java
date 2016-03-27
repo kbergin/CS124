@@ -37,14 +37,14 @@ public class StrassensRTest {
         return new Object[][] {
                 //dimension, n0
                 //Conventional
-                {"8", "8"},
+                /*{"8", "8"},
                 {"16", "16"},
                 {"32", "32"},
                 {"64", "64"},
                 {"128", "128"},
                 {"256", "256"},
                 {"512", "512"},
-                {"1024", "1024"},
+                {"1024", "1024"},*/
 
                 //Strassens
                 {"8", "0"},
@@ -52,8 +52,8 @@ public class StrassensRTest {
                 {"32", "0"},
                 {"64", "0"},
                 {"128", "0"},
-                {"256", "0"},
-                {"512", "0"},
+                //{"256", "0"},
+                //{"512", "0"},
                 //{"1024", "0"},
 
                 //n/4 Crossover
@@ -131,12 +131,13 @@ public class StrassensRTest {
     public Object[][] findn0odd(){
         return new Object[][] {
                 //dimension, n0
-                {"17", "0"},
-                {"17", "17"},
-                {"129", "0"},
+                //{"17", "0"},
+                //{"17", "17"},
+                /*{"129", "0"},
                 {"129", "129"},
-                {"513", "0"},
-                {"513", "513"}
+                {"257", "0"},
+                {"257", "100"},*/
+                {"8", "8"}
         };
     }
 
@@ -151,7 +152,7 @@ public class StrassensRTest {
         inputs[2] = "/Users/kbergin/CS124/output.txt";
 
         long start = System.currentTimeMillis();
-        StrassensR.main(inputs);
+        strassen.main(inputs);
         long end = System.currentTimeMillis();
 
         String alg = findAlg(Integer.parseInt(n0), Integer.parseInt(dimension));
