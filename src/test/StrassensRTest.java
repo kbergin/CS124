@@ -32,8 +32,8 @@ public class StrassensRTest {
         }
     }
 
-    @DataProvider(name = "findn0")
-    public Object[][] dnaTests(){
+    @DataProvider(name = "initialTiming")
+    public Object[][] initialTimingTests(){
         return new Object[][] {
                 //dimension, n0
                 //Conventional
@@ -88,7 +88,60 @@ public class StrassensRTest {
         };
     }
 
-    @Test (dataProvider = "findn0")
+    @DataProvider(name = "findn0")
+    public Object[][] findn0(){
+        return new Object[][] {
+                //dimension, n0
+                {"1024", "256"},
+                {"1024", "200"},
+                {"1024", "180"},
+                {"1024", "170"},
+                {"1024", "160"},
+                {"1024", "150"},
+                {"1024", "140"},
+                {"1024", "130"},
+                {"1024", "120"},
+                {"1024", "100"},
+                {"1024", "50"},
+                {"2056", "1024"},
+                {"2056", "512"},
+                {"2056", "256"}
+        };
+    }
+
+    @DataProvider(name = "findn0100")
+    public Object[][] findn0100(){
+        return new Object[][] {
+                //dimension, n0
+                {"100", "0"},
+                {"100", "10"},
+                {"100", "20"},
+                {"100", "30"},
+                {"100", "40"},
+                {"100", "50"},
+                {"100", "60"},
+                {"100", "70"},
+                {"100", "80"},
+                {"100", "90"},
+                {"100", "100"}
+        };
+    }
+
+    @DataProvider(name = "findn0odd")
+    public Object[][] findn0odd(){
+        return new Object[][] {
+                //dimension, n0
+                //{"17", "0"},
+                //{"17", "17"},
+                /*{"129", "0"},
+                {"129", "129"},
+                {"257", "0"},
+                {"257", "100"},*/
+                {"8", "0"}
+        };
+    }
+
+    @Test (dataProvider = "findn0odd")
     public void testMain(String dimension, String n0) throws Exception {
         //makes test file for this dimension and n0 value and sends to Strassens
         makeTestFiles.main(Integer.parseInt(dimension));
@@ -99,7 +152,7 @@ public class StrassensRTest {
         inputs[2] = "/Users/kbergin/CS124/output.txt";
 
         long start = System.currentTimeMillis();
-        StrassensR.main(inputs);
+        strassen.main(inputs);
         long end = System.currentTimeMillis();
 
         String alg = findAlg(Integer.parseInt(n0), Integer.parseInt(dimension));

@@ -3,9 +3,9 @@
  */
 
 
-public class StrassensR {
+public class strassen {
     //global n0 that we need to determine
-    //private static int n0 = 8;
+    private static int n0 = 128;
 
     public static void main (String[]args) throws Exception {
         if(args.length!=3){
@@ -21,28 +21,30 @@ public class StrassensR {
         final String inputFile = args[2];
 
         Matrix[] matrices = Matrix.createMatrices(inputFile, dimension);
-        int[][] result = strassen(matrices[0].vals, matrices[1].vals, n0);
+        int[][] result = strassens(matrices[0].vals, matrices[1].vals, n0);
 
         Matrix resultMatrix = new Matrix(result);
         resultMatrix.print();
     }
 
 
-    public static int[][] conventionalMM(int[][] A, int[][] B) {
+    private static int[][] conventionalMM(int[][] A, int[][] B) {
         int n = A.length;
         int[][] C = new int[n][n];
 
         for (int i = 0; i < n; i++) {
+            int rows;
             for (int k = 0; k < n; k++) {
+                rows = A[k][i];
                 for (int j = 0; j < n; j++) {
-                    C[i][j] += A[i][k] * B[k][j];
+                    C[k][j] += rows * B[i][j];
                 }
             }
         }
         return C;
     }
 
-    public static int[][] strassen(int[][] A, int[][] B, final int n0) {
+    private static int[][] strassens(int[][] A, int[][] B, final int n0) {
         int n = A.length;
         int m = nextPowerOfTwo(n);
         if(m==n){
