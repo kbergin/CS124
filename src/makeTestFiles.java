@@ -16,7 +16,7 @@ public class makeTestFiles {
             for(int i = 0; i<dimension*dimension; i++){
                 writer.write("1");
                 writer.write("\n");
-                writer.write("0");
+                writer.write("1");
                 writer.write("\n");
             }
         } catch (IOException ex) {

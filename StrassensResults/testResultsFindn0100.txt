@@ -1,0 +1,12 @@
+Test & MatrixDimension & CrossoverPoint(n0) & Time(ms) & Algorithm
+1 & 100 & 0 & 2770 & Strassens
+2 & 100 & 10 & 25 & Mix
+3 & 100 & 20 & 8 & Mix
+4 & 100 & 30 & 9 & Mix
+5 & 100 & 40 & 5 & Mix
+6 & 100 & 50 & 6 & Mix
+7 & 100 & 60 & 7 & Mix
+8 & 100 & 70 & 6 & Mix
+9 & 100 & 80 & 5 & Mix
+10 & 100 & 90 & 5 & Mix
+11 & 100 & 100 & 5 & Conventional
