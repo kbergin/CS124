@@ -54,13 +54,12 @@ public class Matrix {
 
 		//code for printing whole matrix, for testing
 
-		for (int i = 0; i < this.dim; i++) {
+		/*for (int i = 0; i < this.dim; i++) {
 			String line = "";
 			for (int j = 0; j < this.dim; j++) {
 				line += this.vals[i][j] + "\t";
 		  }
 				System.out.println(line);
-		}
-
+		}*/
 	}
 }
