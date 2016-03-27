@@ -33,9 +33,9 @@ public class strassen {
         int[][] C = new int[n][n];
 
         for (int i = 0; i < n; i++) {
-            int rows;
+            int cols;
             for (int k = 0; k < n; k++) {
-                rows = A[k][i];
+                cols = A[k][i];
                 for (int j = 0; j < n; j++) {
                     C[k][j] += rows * B[i][j];
                 }
