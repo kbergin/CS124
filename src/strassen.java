@@ -37,7 +37,7 @@ public class strassen {
             for (int k = 0; k < n; k++) {
                 cols = A[k][i];
                 for (int j = 0; j < n; j++) {
-                    C[k][j] += rows * B[i][j];
+                    C[k][j] += cols * B[i][j];
                 }
             }
         }
