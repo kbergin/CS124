@@ -93,37 +93,10 @@ public class StrassensRTest {
         return new Object[][] {
                 //dimension, n0
                 {"1024", "256"},
-                {"1024", "200"},
-                {"1024", "180"},
-                {"1024", "170"},
-                {"1024", "160"},
-                {"1024", "150"},
-                {"1024", "140"},
+                {"1024", "128"},
                 {"1024", "130"},
                 {"1024", "120"},
-                {"1024", "100"},
-                {"1024", "50"},
-                {"2056", "1024"},
-                {"2056", "512"},
-                {"2056", "256"}
-        };
-    }
-
-    @DataProvider(name = "findn0100")
-    public Object[][] findn0100(){
-        return new Object[][] {
-                //dimension, n0
-                {"100", "0"},
-                {"100", "10"},
-                {"100", "20"},
-                {"100", "30"},
-                {"100", "40"},
-                {"100", "50"},
-                {"100", "60"},
-                {"100", "70"},
-                {"100", "80"},
-                {"100", "90"},
-                {"100", "100"}
+                {"1024", "64"},
         };
     }
 
@@ -141,7 +114,7 @@ public class StrassensRTest {
         };
     }
 
-    @Test (dataProvider = "findn0odd")
+    @Test (dataProvider = "findn0")
     public void testMain(String dimension, String n0) throws Exception {
         //makes test file for this dimension and n0 value and sends to Strassens
         makeTestFiles.main(Integer.parseInt(dimension));
