@@ -15,8 +15,6 @@ public class strassen {
                     "(3) input file with matrix entries");
         }
 
-        //later make sure you change n0 to be a global number instead of this flag.
-        final int n0 = Integer.parseInt(args[0]);
         final int dimension = Integer.parseInt(args[1]);
         final String inputFile = args[2];
 
