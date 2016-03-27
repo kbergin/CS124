@@ -45,23 +45,29 @@ public class StrassensR {
     public static int[][] strassen(int[][] A, int[][] B, final int n0) {
         int n = A.length;
         int m = nextPowerOfTwo(n);
-        int[][] paddedA = new int[m][m];
-        int[][] paddedB = new int[m][m];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                paddedA[i][j] = A[i][j];
-                paddedB[i][j] = B[i][j];
-            }
+        if(m==n){
+            int[][] C = strassenRecursive(A, B, n0);
+            return C;
         }
+        else {
+            int[][] paddedA = new int[m][m];
+            int[][] paddedB = new int[m][m];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    paddedA[i][j] = A[i][j];
+                    paddedB[i][j] = B[i][j];
+                }
+            }
 
-        int[][] paddedC = strassenRecursive(paddedA, paddedB, n0);
-        int[][] C = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                C[i][j] = paddedC[i][j];
+            int[][] paddedC = strassenRecursive(paddedA, paddedB, n0);
+            int[][] C = new int[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    C[i][j] = paddedC[i][j];
+                }
             }
+            return C;
         }
-        return C;
     }
 
     private static int[][] strassenRecursive(int[][] A, int[][] B, final int n0) {
