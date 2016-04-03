@@ -11,7 +11,8 @@ public class FermatTest {
     @DataProvider(name = "findWitness")
     public Object[][] findWitness(){
         return new Object[][]{
-                {636127}
+                {636127},
+                {294409}
         };
     }
 
