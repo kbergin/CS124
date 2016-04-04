@@ -25,4 +25,13 @@ public class FermatTest {
         System.out.println(end-start + "ms");
     }
 
+    @Test
+    public void testRSA() throws Exception {
+        long start = System.currentTimeMillis();
+        RSA.runRSA("Give me an A");
+        long end = System.currentTimeMillis();
+
+        System.out.println(end-start + "ms");
+    }
+
 }
