@@ -15,7 +15,6 @@ public class FermatWitness {
         for (int i = 1; i < n.intValue(); i++) {
             BigInteger a = BigInteger.valueOf(i);
             witness = a.modPow(BigInteger.valueOf(x), n);
-            System.out.println(witness);
             if (witness.intValue() != 1) {
                 return i;
             }
