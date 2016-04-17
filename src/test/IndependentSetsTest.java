@@ -11,7 +11,13 @@ public class IndependentSetsTest {
     @DataProvider(name = "check")
     public Object[][] findWitness(){
         return new Object[][]{
-                {127}
+                {2},
+                {3},
+                {4},
+                {5},
+                {6},
+                {7},
+                {8}
         };
     }
 
