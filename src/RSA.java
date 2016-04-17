@@ -28,9 +28,7 @@ public class RSA {
 
     private static BigInteger reIntify(byte[] byteArray){
         try {
-            BigInteger bigNumber = new BigInteger(byteArray);
-            System.out.println("BigNumber is: " + bigNumber);
-            return bigNumber;
+            return new BigInteger(byteArray);
         } catch (NumberFormatException ne) {
             System.out.println("Binary input is invalid");
             ne.printStackTrace();
