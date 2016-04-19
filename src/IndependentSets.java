@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 
 public class IndependentSets {
-    public static void main(int n) throws Exception {
+    public static BigInteger main(int n) throws Exception {
         System.out.println(n);
         double nodes = findN(n);
         nodes = Math.ceil(nodes);
@@ -16,6 +16,7 @@ public class IndependentSets {
         BigInteger independentSets = findIndependentSets(n);
 
         System.out.println(independentSets + " independent sets");
+        return independentSets;
     }
     public static double findN(int nodes){
         return Math.pow(2.0, nodes-1)-1;
