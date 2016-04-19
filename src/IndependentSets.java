@@ -7,21 +7,21 @@ import java.math.BigInteger;
 
 
 public class IndependentSets {
-    public static void main(int n) throws Exception {
+    public static BigInteger main(int n) throws Exception {
+        System.out.println(n);
         double nodes = findN(n);
         nodes = Math.ceil(nodes);
-        System.out.println(nodes);
+        System.out.println(nodes + " nodes");
 
-        BigInteger independentSets = findIndependentSets(nodes);
+        BigInteger independentSets = findIndependentSets(n);
 
-        System.out.println(independentSets);
+        System.out.println(independentSets + " independent sets");
+        return independentSets;
     }
     public static double findN(int nodes){
-        double y = Math.log(2);
-        double x = Math.log(nodes);
-        return ((2*y+x)/y);
+        return Math.pow(2.0, nodes-1)-1;
     }
-    public static BigInteger findIndependentSets(double n) {
+    public static BigInteger findIndependentSets(int n) {
         if(n<=1){
             return BigInteger.valueOf(1L);
         }
