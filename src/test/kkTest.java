@@ -36,10 +36,10 @@ public class kkTest {
     public Object[][] generateGraphs(){
         return new Object[][] {
                 //maxIter
-                {100},
-                {1000},
-                {25000},
-                {250000}
+                //{100},
+                //{1000},
+                {25000}
+          //      {250000}
         };
     }
 
@@ -91,6 +91,7 @@ public class kkTest {
             System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
         }
     }
+
 
     @Test (dataProvider = "generateGraphs")
     private void runEachForGraphs(int maxIter) throws Exception {

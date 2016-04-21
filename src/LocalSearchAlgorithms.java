@@ -71,7 +71,7 @@ public class LocalSearchAlgorithms {
         return rBest;
     }
 
-    //Functions for returning all 25000 iterations for graphing
+ //Functions for returning all 25000 iterations for graphing
     public static long[] repeatedRandomArray(long[] A, Solution s, int max) {
         long[] residues = new long[max];
         long r = s.residue(A);
@@ -127,8 +127,9 @@ public class LocalSearchAlgorithms {
             if (r < rDoublePrime) {
                 rDoublePrime = r;
             }
-            residues[i] = rPrime;
+            residues[i] = rDoublePrime;
         }
         return residues;
     }
+
 }
