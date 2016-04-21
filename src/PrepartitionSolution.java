@@ -28,13 +28,6 @@ public class PrepartitionSolution implements Solution {
         for (int i = 0; i < this.n; i++) {
             AA[this.P[i]] += A[i];
         }
-		/*
-		System.out.print("AA':\n[");
-		for (int i = 0; i < this.n; i++) {
-			System.out.print(" " + AA[i] + " ");
-		}
-		System.out.print("]\n");
-		*/
         return LocalSearchAlgorithms.kk(AA);
     }
 

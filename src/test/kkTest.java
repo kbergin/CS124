@@ -14,6 +14,8 @@ public class kkTest {
     private final static long[] INPUT = new long[INPUT_SIZE];
 
     //TODO: @AfterTest to output results how we want for latex
+    //TODO: Write a test to test the input file functionality
+
     @BeforeTest
     private static void generateProblem() {
         Random rand = new Random();
@@ -21,7 +23,6 @@ public class kkTest {
             INPUT[i] = RandomLong.nextLong(rand, MAX_INPUT_SIZE) + 1;
         }
     }
-
 
     @DataProvider(name = "runAllAlgs")
     public Object[][] runAllAlgs(){
@@ -32,14 +33,22 @@ public class kkTest {
         };
     }
 
+    @DataProvider(name = "LatexOutput")
+    public Object[][] LatexOutput(){
+        return new Object[][] {
+                //max, n
+                {25000, 50}
+        };
+    }
+
     @DataProvider(name = "generateGraphs")
     public Object[][] generateGraphs(){
         return new Object[][] {
                 //maxIter
-                {100},
-                {1000},
-                {25000},
-                {250000}
+                //{100},
+                //{1000},
+                {25000}
+                //{250000}
         };
     }
 
@@ -91,6 +100,57 @@ public class kkTest {
             System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
         }
     }
+
+    @Test (dataProvider = "LatexOutput")
+    private void makeLatexOutput(int maxIter, int n) {
+        //
+        for (int i = 0; i < n; i++) {
+            long[] A = generateProblem(n, maxIter);
+
+            long start = System.nanoTime();
+            long kkResidue = LocalSearchAlgorithms.kk(A);
+            long elapsed = System.nanoTime() - start;
+            double seconds = (double)elapsed / 1000000000.0;
+            System.out.println("\nKK: " + kkResidue + "\tTime: " + seconds);
+
+            Solution standard = new StandardSolution(A.length);
+            System.out.println("\nStandard Representation:");
+            start = System.nanoTime();
+            long rrResidue = LocalSearchAlgorithms.repeatedRandom(A, standard, maxIter);
+            elapsed = System.nanoTime() - start;
+            seconds = (double)elapsed / 1000000000.0;
+            System.out.println("Repeated Random: " + rrResidue + "\tTime: " + seconds);
+            start = System.nanoTime();
+            long hcResidue = LocalSearchAlgorithms.hillClimbing(A, standard, maxIter);
+            elapsed = System.nanoTime() - start;
+            seconds = (double)elapsed / 1000000000.0;
+            System.out.println("Hill Climbing: " + hcResidue + "\tTime: " + seconds);
+            start = System.nanoTime();
+            long saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, standard, maxIter);
+            elapsed = System.nanoTime() - start;
+            seconds = (double)elapsed / 1000000000.0;
+            System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
+
+            Solution prepartition = new PrepartitionSolution(A.length);
+            System.out.println("\nPrepartition Representation:");
+            start = System.nanoTime();
+            rrResidue = LocalSearchAlgorithms.repeatedRandom(A, prepartition, maxIter);
+            elapsed = System.nanoTime() - start;
+            seconds = (double)elapsed / 1000000000.0;
+            System.out.println("Repeated Random: " + rrResidue + "\tTime: " + seconds);
+            start = System.nanoTime();
+            hcResidue = LocalSearchAlgorithms.hillClimbing(A, prepartition, maxIter);
+            elapsed = System.nanoTime() - start;
+            seconds = (double)elapsed / 1000000000.0;
+            System.out.println("Hill Climbing: " + hcResidue + "\tTime: " + seconds);
+            start = System.nanoTime();
+            saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, prepartition, maxIter);
+            elapsed = System.nanoTime() - start;
+            seconds = (double)elapsed / 1000000000.0;
+            System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
+        }
+    }
+
 
     @Test (dataProvider = "generateGraphs")
     private void runEachForGraphs(int maxIter) throws Exception {
