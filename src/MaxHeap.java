@@ -35,11 +35,6 @@ public class MaxHeap {
     }
 
     /**
-     Gets the minimum element stored in this heap.
-     */
-    public long peek() { return elements.get(1); }
-
-    /**
      Removes the minimum element from this heap.
      */
     public long deleteMax() {
@@ -132,6 +127,4 @@ public class MaxHeap {
      Returns the value of the parent.
      */
     private Long getParent(int index) { return elements.get(index / 2); }
-
-    public boolean isEmpty() { return (elements.size() == 1); }
 }
