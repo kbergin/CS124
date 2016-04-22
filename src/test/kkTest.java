@@ -53,7 +53,7 @@ public class kkTest {
             long[] A = generateA(100, 1000000000000L);
 
             //get KK only version
-            long kkResidue = LocalSearchAlgorithms.kk(A);
+            long kkResidue = kk.applyKK(A);
             KK[i] = kkResidue;
 
             //Do Standard Representation
@@ -130,7 +130,7 @@ public class kkTest {
 
 
     private long runKK(long[] A) throws Exception {
-        return LocalSearchAlgorithms.kk(A);
+        return kk.applyKK(A);
     }
 
 
