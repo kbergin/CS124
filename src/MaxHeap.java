@@ -17,6 +17,7 @@ public class MaxHeap {
 
         while (index > 1 && getParent(index).compareTo(newVal) < 0) {
             values.set(index, getParent(index));
+            index = getParentIndex(index);
         }
 
         values.set(index, newVal);

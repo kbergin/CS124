@@ -16,7 +16,7 @@
 import java.io.*;
 
 public class Main {
-    public static long main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         String usage = "Usage: ./kk <inputfile>";
         if (args.length != 1) {
             throw new Exception("Incorrect number of arguments. Usage is: \n" + usage);
@@ -26,19 +26,23 @@ public class Main {
         long[] testArray = generateFromFile(fileName);
         long residue = kk.applyKK(testArray);
         System.out.println(residue);
-
-        return residue;
     }
 
-    private static long[] generateFromFile(String filename) {
+    private static long[] generateFromFile(String filename) throws Exception {
         int numLines = 100;
         long[] A = new long[numLines];
         try {
             FileReader input = new FileReader(filename);
             BufferedReader reader = new BufferedReader(input);
             for (int i = 0; i < numLines; i++) {
-                String line = reader.readLine();
-                A[i] = Long.parseLong(line);
+                try {
+                    String line = reader.readLine();
+                    A[i] = Long.parseLong(line);
+                } catch(Exception k) {
+                    System.out.println("Input is not of expected length. Assignment specified 100 inputs");
+                    k.printStackTrace();
+                    break;
+                }
             }
 
             reader.close();
