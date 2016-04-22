@@ -20,18 +20,11 @@ public class PrepartitionSolution implements Solution {
         this.n = P.length;
     }
 
-    public long residue(long[] A) {
-        long[] AA = new long[this.n];
-        for (int i = 0; i < this.n; i++) {
-            AA[i] = 0;
-        }
-        for (int i = 0; i < this.n; i++) {
-            AA[this.P[i]] += A[i];
-        }
-        return LocalSearchAlgorithms.kk(AA);
+    public int[] getArray() {
+        return this.P;
     }
 
-    public Solution getNeighbor(boolean random) {
+    public Solution findNeighbor(boolean random) {
         int[] neighbor = new int[this.n];
         for (int k = 0; k < this.n; k++) {
             neighbor[k] = this.P[k];
@@ -46,17 +39,14 @@ public class PrepartitionSolution implements Solution {
         return new PrepartitionSolution(neighbor);
     }
 
-    public void print() {
-        String s = "[";
+    public long residue(long[] A) {
+        long[] AA = new long[this.n];
         for (int i = 0; i < this.n; i++) {
-            s += " " + this.P[i] + " ";
+            AA[i] = 0;
         }
-        s += "]";
-        System.out.println(s);
+        for (int i = 0; i < this.n; i++) {
+            AA[this.P[i]] += A[i];
+        }
+        return kk.applyKK(AA);
     }
-
-    public int[] getArray() {
-        return this.P;
-    }
-
 }

@@ -2,24 +2,10 @@ import java.util.Random;
 
 public class LocalSearchAlgorithms {
 
-    public static long kk(long[] A) {
-        MaxHeap h = new MaxHeap();
-        for (long i : A) {
-            h.insert(i);
-        }
-        while (h.size() > 1) {
-            long n1 = h.deleteMax();
-            long n2 = h.deleteMax();
-            long diff = Math.abs(n1 - n2);
-            h.insert(diff);
-        }
-        return h.deleteMax();
-    }
-
     public static long repeatedRandom(long[] A, Solution s, int max) {
         long r = s.residue(A);
         for (int i = 0; i < max; i++) {
-            Solution ss = s.getNeighbor(true);
+            Solution ss = s.findNeighbor(true);
             long rr = ss.residue(A);
             if (rr < r) {
                 r = rr;
@@ -32,7 +18,7 @@ public class LocalSearchAlgorithms {
     public static long hillClimbing(long[] A, Solution s, int max) {
         long r = s.residue(A);
         for (int i = 0; i < max; i++) {
-            Solution ss = s.getNeighbor(false);
+            Solution ss = s.findNeighbor(false);
             long rr = ss.residue(A);
             if (rr < r) {
                 r = rr;
@@ -50,7 +36,7 @@ public class LocalSearchAlgorithms {
         long r = s.residue(A);
         long rBest = r;
         for (int i = 0; i < max; i++) {
-            Solution ss = s.getNeighbor(false);
+            Solution ss = s.findNeighbor(false);
             long rr = ss.residue(A);
             if (rr < r) {
                 r = rr;
@@ -76,7 +62,7 @@ public class LocalSearchAlgorithms {
         long[] residues = new long[max];
         long r = s.residue(A);
         for (int i = 0; i < max; i++) {
-            Solution ss = s.getNeighbor(true);
+            Solution ss = s.findNeighbor(true);
             long rr = ss.residue(A);
             if (rr < r) {
                 r = rr;
@@ -92,7 +78,7 @@ public class LocalSearchAlgorithms {
 
         long r = s.residue(A);
         for (int i = 0; i < max; i++) {
-            Solution ss = s.getNeighbor(false);
+            Solution ss = s.findNeighbor(false);
             long rr = ss.residue(A);
             if (rr < r) {
                 r = rr;
@@ -110,7 +96,7 @@ public class LocalSearchAlgorithms {
         long r = s.residue(A);
         long rDoublePrime = r;
         for (int i = 0; i < max; i++) {
-            Solution sPrime = s.getNeighbor(false);
+            Solution sPrime = s.findNeighbor(false);
             long rPrime = sPrime.residue(A);
             if (rPrime < r) {
                 r = rPrime;

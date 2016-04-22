@@ -13,23 +13,19 @@
 //TODO: cooling schedule function
 //TODO: Output manipulation
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String usage = "Usage: ./kk <inputfile>";
+
         if (args.length != 1) {
-            System.out.println("Wrong number of arguments.");
-            System.out.println(usage);
+            System.out.println("Incorrect argument. Correct format: ./kk <inputfile>");
             return;
         }
 
-        String filename = args[0];
-        long[] problem = generateFromFile(filename);
-        long residue = LocalSearchAlgorithms.kk(problem);
+        String fileName = args[0];
+        long[] testArray = generateFromFile(fileName);
+        long residue = kk.applyKK(testArray);
         System.out.println(residue);
     }
 
