@@ -8,7 +8,7 @@
 //TODO: random long function - to generate input file
 //TODO: function to randomly generate S/P solution - let's try to use some soft eng awesomeness to use this for both
 //TODO: function to choose random neighbor - let's try to use some soft eng awesomeness to use this for both
-//I think for this we want to create super classes that can be interfaced slightly differently for each version
+//I think for this we want to create an Interface that can be implemented slightly differently for each version
 //TODO: function for each algorithm
 //TODO: cooling schedule function
 //TODO: Output manipulation
@@ -16,17 +16,18 @@
 import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-
+    public static long main(String[] args) throws Exception {
+        String usage = "Usage: ./kk <inputfile>";
         if (args.length != 1) {
-            System.out.println("Incorrect argument. Correct format: ./kk <inputfile>");
-            return;
+            throw new Exception("Incorrect number of arguments. Usage is: \n" + usage);
         }
 
         String fileName = args[0];
         long[] testArray = generateFromFile(fileName);
         long residue = kk.applyKK(testArray);
         System.out.println(residue);
+
+        return residue;
     }
 
     private static long[] generateFromFile(String filename) {
