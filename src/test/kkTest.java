@@ -1,3 +1,4 @@
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -5,36 +6,21 @@ import org.testng.annotations.Test;
 import java.io.*;
 import java.util.Random;
 
-/**
- * Created by kbergin on 4/19/16.
- */
 public class kkTest {
     private final static int INPUT_SIZE = 100;
     private final static long MAX_INPUT_SIZE = 1000000000000L;
     private final static long[] INPUT = new long[INPUT_SIZE];
 
-    //TODO: @AfterTest to output results how we want for latex
-    //TODO: Write a test to test the input file functionality
-
     @BeforeTest
-    private static void generateProblem() {
+    private static void generateA() {
         Random rand = new Random();
         for (int i = 0; i < INPUT_SIZE; i++) {
             INPUT[i] = RandomLong.nextLong(rand, MAX_INPUT_SIZE) + 1;
         }
     }
 
-    @DataProvider(name = "runAllAlgs")
-    public Object[][] runAllAlgs(){
-        return new Object[][] {
-                //max, n
-                //{10, 1},
-                {25000, 50}
-        };
-    }
-
     @DataProvider(name = "LatexOutput")
-    public Object[][] LatexOutput(){
+    private Object[][] LatexOutput(){
         return new Object[][] {
                 //max, n
                 {25000, 50}
@@ -42,7 +28,7 @@ public class kkTest {
     }
 
     @DataProvider(name = "generateGraphs")
-    public Object[][] generateGraphs(){
+    private Object[][] generateGraphs(){
         return new Object[][] {
                 //maxIter
                 //{100},
@@ -52,105 +38,57 @@ public class kkTest {
         };
     }
 
-    @Test (dataProvider = "runAllAlgs")
-    private void runAll(int maxIter, int n) {
-        for (int i = 0; i < n; i++) {
-            long[] A = generateProblem(n, maxIter);
-
-            long start = System.nanoTime();
-            long kkResidue = LocalSearchAlgorithms.kk(A);
-            long elapsed = System.nanoTime() - start;
-            double seconds = (double)elapsed / 1000000000.0;
-            System.out.println("\nKK: " + kkResidue + "\tTime: " + seconds);
-
-            Solution standard = new StandardSolution(A.length);
-            System.out.println("\nStandard Representation:");
-            start = System.nanoTime();
-            long rrResidue = LocalSearchAlgorithms.repeatedRandom(A, standard, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Repeated Random: " + rrResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
-            long hcResidue = LocalSearchAlgorithms.hillClimbing(A, standard, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Hill Climbing: " + hcResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
-            long saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, standard, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
-
-            Solution prepartition = new PrepartitionSolution(A.length);
-            System.out.println("\nPrepartition Representation:");
-            start = System.nanoTime();
-            rrResidue = LocalSearchAlgorithms.repeatedRandom(A, prepartition, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Repeated Random: " + rrResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
-            hcResidue = LocalSearchAlgorithms.hillClimbing(A, prepartition, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Hill Climbing: " + hcResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
-            saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, prepartition, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
-        }
-    }
-
     @Test (dataProvider = "LatexOutput")
     private void makeLatexOutput(int maxIter, int n) {
-        //
+        long[] KK = new long[n];
+        long[] standardRR = new long[n];
+        long[] standardHC = new long[n];
+        long[] standardSA = new long[n];
+        long[] PPRR = new long[n];
+        long[] PPHC = new long[n];
+        long[] PPSA = new long[n];
+
         for (int i = 0; i < n; i++) {
-            long[] A = generateProblem(n, maxIter);
+            //generate new input
+            long[] A = generateA(100, 1000000000000L);
 
-            long start = System.nanoTime();
+            //get KK only version
             long kkResidue = LocalSearchAlgorithms.kk(A);
-            long elapsed = System.nanoTime() - start;
-            double seconds = (double)elapsed / 1000000000.0;
-            System.out.println("\nKK: " + kkResidue + "\tTime: " + seconds);
+            KK[i] = kkResidue;
 
+            //Do Standard Representation
             Solution standard = new StandardSolution(A.length);
-            System.out.println("\nStandard Representation:");
-            start = System.nanoTime();
+
+            //Random
             long rrResidue = LocalSearchAlgorithms.repeatedRandom(A, standard, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Repeated Random: " + rrResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
+            standardRR[i] = rrResidue;
+
+            //Hill Climbing
             long hcResidue = LocalSearchAlgorithms.hillClimbing(A, standard, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Hill Climbing: " + hcResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
+            standardHC[i] = hcResidue;
+
+            //Simulated Annealing
             long saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, standard, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
+            standardSA[i] = saResidue;
 
+            //Prepartition Representation
             Solution prepartition = new PrepartitionSolution(A.length);
-            System.out.println("\nPrepartition Representation:");
-            start = System.nanoTime();
-            rrResidue = LocalSearchAlgorithms.repeatedRandom(A, prepartition, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Repeated Random: " + rrResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
-            hcResidue = LocalSearchAlgorithms.hillClimbing(A, prepartition, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Hill Climbing: " + hcResidue + "\tTime: " + seconds);
-            start = System.nanoTime();
-            saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, prepartition, maxIter);
-            elapsed = System.nanoTime() - start;
-            seconds = (double)elapsed / 1000000000.0;
-            System.out.println("Simulated Annealing: " + saResidue + "\tTime: " + seconds);
-        }
-    }
 
+            //Random
+            rrResidue = LocalSearchAlgorithms.repeatedRandom(A, prepartition, maxIter);
+            PPRR[i] = rrResidue;
+
+            //Hill Climbing
+            hcResidue = LocalSearchAlgorithms.hillClimbing(A, prepartition, maxIter);
+            PPHC[i] = hcResidue;
+
+            //Simulated Annealing
+            saResidue = LocalSearchAlgorithms.simulatedAnnealing(A, prepartition, maxIter);
+            PPSA[i] = saResidue;
+
+        }
+        outputLatex(KK, standardRR, standardHC, standardSA, PPRR, PPHC, PPSA);
+    }
 
     @Test (dataProvider = "generateGraphs")
     private void runEachForGraphs(int maxIter) throws Exception {
@@ -159,7 +97,44 @@ public class kkTest {
         runSimulatedAnneal(maxIter);
     }
 
-    public void runRandom(int maxIter) throws Exception {
+    @Test
+    private void testFile() throws Exception{
+        long A[] = generateA(100, 1000000000000L);
+        Writer writer;
+        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("testInput.txt"), "utf-8"));
+
+        for(int i = 0; i<A.length; i++) {
+            writer.write(String.valueOf(A[i]));
+            writer.write("\n");
+        }
+
+        writer.close();
+
+        long residueKK = runKK(A);
+
+        String[] args = new String[1];
+        args[0] = "/Users/kbergin/CS124/testInput.txt";
+
+        long residueFromFile = Main.main(args);
+        Assert.assertEquals(residueKK, residueFromFile);
+    }
+
+    @Test
+    public void runSimulatedAnnealrBest() throws Exception {
+        long[] A = INPUT;
+        int maxIter=25000;
+        Solution prepartition = new PrepartitionSolution(A.length);
+        long[] saResidue = LocalSearchAlgorithms.simulatedAnnealingArray(A, prepartition, maxIter);
+        printToFile(saResidue, "PrepartitionSArBest", maxIter);
+    }
+
+
+    private long runKK(long[] A) throws Exception {
+        return LocalSearchAlgorithms.kk(A);
+    }
+
+
+    private void runRandom(int maxIter) throws Exception {
         long[] A = INPUT;
 
         Solution standard = new StandardSolution(A.length);
@@ -171,7 +146,7 @@ public class kkTest {
         printToFile(rrResidue, "PrepartitionRR", maxIter);
     }
 
-    public void runHillClimbing(int maxIter) throws Exception {
+    private void runHillClimbing(int maxIter) throws Exception {
         long[] A = INPUT;
 
         Solution standard = new StandardSolution(A.length);
@@ -184,7 +159,7 @@ public class kkTest {
 
     }
 
-    public void runSimulatedAnneal(int maxIter) throws Exception {
+    private void runSimulatedAnneal(int maxIter) throws Exception {
         long[] A = INPUT;
 
         Solution standard = new StandardSolution(A.length);
@@ -196,16 +171,45 @@ public class kkTest {
         printToFile(saResidue, "PrepartitionSA", maxIter);
     }
 
-    @Test
-    public void runSimulatedAnnealrBest() throws Exception {
-        long[] A = INPUT;
-        int maxIter=25000;
-        Solution prepartition = new PrepartitionSolution(A.length);
-        long[] saResidue = LocalSearchAlgorithms.simulatedAnnealingArray(A, prepartition, maxIter);
-        printToFile(saResidue, "PrepartitionSArBest", maxIter);
+    private void outputLatex(long[] KK, long[] standardRR, long[] standardHC, long[] standardSA,
+                             long[] PPRR, long[] PPHC, long[] PPSA){
+        Writer writer = null;
+
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.txt"), "utf-8"));
+            writer.write("\\begin{tabular}{|c|c|c|c|c|c|c|c|} \\hline\n" +
+                    "& & \\multicolumn{3}{|c|}{\\textbf{Standard}} & \\multicolumn{3}{|c|}{\\textbf{Prepartition}} \\\\ \\hline\n" +
+                    "\\textbf{Instance}\t&\\textbf{KK} &\\textbf{R} &\\textbf{HC} &\\textbf{SA} &\\textbf{R} &\\textbf{HC} &\\textbf{SA}\t\\\\ \\hline\n");
+            for(int i = 0; i<KK.length; i++){
+                writer.write(String.valueOf(i+1));
+                writer.write(" & ");
+                writer.write(String.valueOf(KK[i]));
+                writer.write(" & ");
+                writer.write(String.valueOf(standardRR[i]));
+                writer.write(" & ");
+                writer.write(String.valueOf(standardHC[i]));
+                writer.write(" & ");
+                writer.write(String.valueOf(standardSA[i]));
+                writer.write(" & ");
+                writer.write(String.valueOf(PPRR[i]));
+                writer.write(" & ");
+                writer.write(String.valueOf(PPHC[i]));
+                writer.write(" & ");
+                writer.write(String.valueOf(PPSA[i]));
+                writer.write("\\\\ \\hline");
+                writer.write("\n");
+            }
+            writer.write("\\end{tabular}");
+        } catch (IOException ex) { // report
+        }
+        finally {
+            try {writer.close();} catch (Exception ex) {/*ignore*/}
+        }
+
     }
 
-    public void printToFile(long[] residues, String test, int maxIter) throws Exception {
+
+    private void printToFile(long[] residues, String test, int maxIter) throws Exception {
         Writer writer = null;
 
         try {
@@ -224,7 +228,7 @@ public class kkTest {
         }
     }
 
-    private static long[] generateProblem(int n, long max) {
+    private static long[] generateA(int n, long max) {
         Random rand = new Random();
         long[] problem = new long[n];
         for (int i = 0; i < n; i++) {
