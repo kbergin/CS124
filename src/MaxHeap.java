@@ -1,130 +1,83 @@
 import java.util.ArrayList;
 
-/**
- Implementation of a MaxHeap
- */
 public class MaxHeap {
 
-    private ArrayList<Long> elements;
+    private ArrayList<Long> values;
 
-    /**
-     Constructs an empty heap.
-     */
     public MaxHeap() {
-        elements = new ArrayList<Long>();
-        elements.add(null);
+        values = new ArrayList<Long>();
+        values.add(null);
     }
 
-    /**
-     Adds a new element to this heap.
-     */
     public void insert(long n) {
-        Long newElement = n;
-        // Add a new leaf
-        elements.add(null);
-        int index = elements.size() - 1;
+        Long newVal = n;
 
-        // Demote parents that are larger than the new element
-        while (index > 1 && getParent(index).compareTo(newElement) < 0) {
-            elements.set(index, getParent(index));
-            index = getParentIndex(index);
+        values.add(null);
+        int index = values.size() - 1;
+
+        while (index > 1 && getParent(index).compareTo(newVal) < 0) {
+            values.set(index, getParent(index));
         }
 
-        // Store the new element into the vacant slot
-        elements.set(index, newElement);
+        values.set(index, newVal);
     }
 
-    /**
-     Removes the minimum element from this heap.
-     */
     public long deleteMax() {
-        Long maximum = elements.get(1);
+        Long maximum = values.get(1);
 
-        // Remove last element
-        int lastIndex = elements.size() - 1;
-        Long last = elements.remove(lastIndex);
+        int lastIndex = values.size() - 1;
+        Long last = values.remove(lastIndex);
 
         if (lastIndex > 1) {
-            elements.set(1, last);
-            fixHeap();
+            values.set(1, last);
+            maxHeapify();
         }
 
         return maximum;
     }
 
-    /**
-     Turns the tree back into a heap, provided only the root node violates the heap condition.
-     */
-    private void fixHeap() {
-        Long root = elements.get(1);
-        int lastIndex = elements.size() - 1;
+    private void maxHeapify() {
+        Long root = values.get(1);
+        int lastIndex = values.size() - 1;
 
-        // Promote children of removed root while they are larger than last
         int index = 1;
         boolean more = true;
         while (more) {
             int childIndex = getLeftChildIndex(index);
+
             if (childIndex <= lastIndex) {
-                // Get smaller child
-                // Get left child first
                 Long child = getLeftChild(index);
 
-                // Use right child instead if it is larger
                 if (getRightChildIndex(index) <= lastIndex && getRightChild(index).compareTo(child) > 0) {
                     childIndex = getRightChildIndex(index);
                     child = getRightChild(index);
                 }
 
-                // Check if larger child is larger than root
                 if (child.compareTo(root) > 0) {
-                    // Promote child
-                    elements.set(index, child);
+                    values.set(index, child);
                     index = childIndex;
                 } else {
-                    // Root is smaller than both children
                     more = false;
                 }
             } else {
-                // No children
                 more = false;
             }
         }
-        // Store root element in vacant slot
-        elements.set(index, root);
+
+        values.set(index, root);
     }
 
-    /**
-     Returns the number of elements in this heap.
-     */
-    public int size() { return elements.size() - 1; }
+    public int size() { return values.size() - 1; }
 
-    /**
-     Returns the index of the left child.
-     */
+    private Long getParent(int index) { return values.get(index / 2); }
+
+    private static int getParentIndex(int index) { return index / 2; } //unused but left for future debugging
+
+    private Long getLeftChild(int index) { return values.get(2 * index); }
+
     private static int getLeftChildIndex(int index) { return 2 * index; }
 
-    /**
-     Returns the index of the right child.
-     */
+    private Long getRightChild(int index) { return values.get(2 * index + 1); }
+
     private static int getRightChildIndex(int index) { return 2 * index + 1; }
-
-    /**
-     Returns the index of the parent.
-     */
-    private static int getParentIndex(int index) { return index / 2; }
-
-    /**
-     Returns the value of the left child.
-     */
-    private Long getLeftChild(int index) { return elements.get(2 * index); }
-
-    /**
-     Returns the value of the right child.
-     */
-    private Long getRightChild(int index) { return elements.get(2 * index + 1); }
-
-    /**
-     Returns the value of the parent.
-     */
-    private Long getParent(int index) { return elements.get(index / 2); }
 }

@@ -24,7 +24,7 @@ public class StandardSolution implements Solution {
         this.n = S.length;
     }
 
-    public Solution getNeighbor(boolean random) {
+    public Solution findNeighbor(boolean random) {
         Random rand = new Random();
         int[] neighbor = new int[this.n];
         if (random) {
@@ -54,6 +54,10 @@ public class StandardSolution implements Solution {
         return new StandardSolution(neighbor);
     }
 
+    public int[] getArray() {
+        return this.S;
+    }
+
     public long residue(long[] A) {
         long residue = 0;
         for (int i = 0; i < this.n; i++) {
@@ -61,19 +65,4 @@ public class StandardSolution implements Solution {
         }
         return Math.abs(residue);
     }
-
-    public void print() {
-        String s = "[";
-        for (int i = 0; i < this.n; i++) {
-            s += " " + this.S[i] + " ";
-        }
-        s += "]";
-        System.out.println(s);
-
-    }
-
-    public int[] getArray() {
-        return this.S;
-    }
-
 }
