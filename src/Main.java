@@ -22,10 +22,38 @@ public class Main {
             throw new Exception("Incorrect number of arguments. Usage is: \n" + usage);
         }
 
+        int maxIter = 25000;
+
         String fileName = args[0];
         long[] testArray = generateFromFile(fileName);
+
         long residue = kk.applyKK(testArray);
-        System.out.println(residue);
+        System.out.println("The Karmarkar Karp solution is: " + residue);
+
+
+        Solution prepartition = new PrepartitionSolution(testArray.length);
+
+        long rrPResidue = LocalSearchAlgorithms.repeatedRandom(testArray, prepartition, maxIter);
+        System.out.println("The Repeated Random and Prepartition solution is: " + rrPResidue);
+
+        long hcPResidue = LocalSearchAlgorithms.hillClimbing(testArray, prepartition, maxIter);
+        System.out.println("The Hill Climbing and Prepartition solution is: " + hcPResidue);
+
+        long saPResidue = LocalSearchAlgorithms.simulatedAnnealing(testArray, prepartition, maxIter);
+        System.out.println("The Simmulated Annealing and Prepartition solution is: " + saPResidue);
+
+
+        Solution standard = new StandardSolution(testArray.length);
+
+        long rrSResidue = LocalSearchAlgorithms.repeatedRandom(testArray, standard, maxIter);
+        System.out.println("The Repeated Random and Standard solution is: " + rrSResidue);
+
+        long hcSResidue = LocalSearchAlgorithms.hillClimbing(testArray, standard, maxIter);
+        System.out.println("The Hill Climbing and Standard solution is: " + hcSResidue);
+
+        long saSResidue = LocalSearchAlgorithms.simulatedAnnealing(testArray, standard, maxIter);
+        System.out.println("The Simmulated Annealing and Standard solution is: " + saSResidue);
+
     }
 
     private static long[] generateFromFile(String filename) throws Exception {
