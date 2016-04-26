@@ -25,8 +25,13 @@ public class Main {
         int maxIter = 25000;
 
         String fileName = args[0];
-        long[] testArray = generateFromFile(fileName);
-
+        long[] testArray;
+        try {
+            testArray = generateFromFile(fileName);
+        }
+        catch (Exception e){
+            throw new Exception("Input is not of expected length. Assignment specified 100 inputs");
+        }
         long residue = kk.applyKK(testArray);
         System.out.println("Karmarkar Karp: " + residue);
 
@@ -63,10 +68,8 @@ public class Main {
                 try {
                     String line = reader.readLine();
                     A[i] = Long.parseLong(line);
-                } catch(Exception k) {
-                    System.out.println("Input is not of expected length. Assignment specified 100 inputs");
-                    k.printStackTrace();
-                    break;
+                } catch (Exception k) {
+                    throw new Exception();
                 }
             }
 
