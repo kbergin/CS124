@@ -28,32 +28,29 @@ public class Main {
         long[] testArray = generateFromFile(fileName);
 
         long residue = kk.applyKK(testArray);
-        System.out.println("The Karmarkar Karp solution is: " + residue);
-
-
-        Solution prepartition = new PrepartitionSolution(testArray.length);
-
-        long rrPResidue = LocalSearchAlgorithms.repeatedRandom(testArray, prepartition, maxIter);
-        System.out.println("The Repeated Random and Prepartition solution is: " + rrPResidue);
-
-        long hcPResidue = LocalSearchAlgorithms.hillClimbing(testArray, prepartition, maxIter);
-        System.out.println("The Hill Climbing and Prepartition solution is: " + hcPResidue);
-
-        long saPResidue = LocalSearchAlgorithms.simulatedAnnealing(testArray, prepartition, maxIter);
-        System.out.println("The Simmulated Annealing and Prepartition solution is: " + saPResidue);
-
+        System.out.println("Karmarkar Karp: " + residue);
 
         Solution standard = new StandardSolution(testArray.length);
 
         long rrSResidue = LocalSearchAlgorithms.repeatedRandom(testArray, standard, maxIter);
-        System.out.println("The Repeated Random and Standard solution is: " + rrSResidue);
+        System.out.println("Standard: Repeated Random: " + rrSResidue);
 
         long hcSResidue = LocalSearchAlgorithms.hillClimbing(testArray, standard, maxIter);
-        System.out.println("The Hill Climbing and Standard solution is: " + hcSResidue);
+        System.out.println("Standard: Hill Climbing: " + hcSResidue);
 
         long saSResidue = LocalSearchAlgorithms.simulatedAnnealing(testArray, standard, maxIter);
-        System.out.println("The Simmulated Annealing and Standard solution is: " + saSResidue);
+        System.out.println("Standard: Simmulated Annealing: " + saSResidue);
 
+        Solution prepartition = new PrepartitionSolution(testArray.length);
+
+        long rrPResidue = LocalSearchAlgorithms.repeatedRandom(testArray, prepartition, maxIter);
+        System.out.println("Prepartition: Repeated Random: " + rrPResidue);
+
+        long hcPResidue = LocalSearchAlgorithms.hillClimbing(testArray, prepartition, maxIter);
+        System.out.println("Prepartition: Hill Climbing: " + hcPResidue);
+
+        long saPResidue = LocalSearchAlgorithms.simulatedAnnealing(testArray, prepartition, maxIter);
+        System.out.println("Prepartition: Simmulated Annealing: " + saPResidue);
     }
 
     private static long[] generateFromFile(String filename) throws Exception {
